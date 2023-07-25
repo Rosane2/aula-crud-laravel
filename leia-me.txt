@@ -1,2 +1,5 @@
 # Dados do projeto de estudo Laravel - Iniciante
 
+# Objetivo
+Criar um ambiente academico com cadastro de alunos, notas, etc
+
