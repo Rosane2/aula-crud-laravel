@@ -50,11 +50,27 @@ php artisan make: migration create_table_cursos --create=cursos para criar o arq
 No terminal na pasta database/migrations : php artisan migrate
 
 # Usando o sql queries do posgresql
+# Usando o sql queries do posgresql
 create table curso (
       id bigserial primary key,
       nomecurso varchar(80) not null,
       cargahoraria varchar 5),
-      status char(1) default 'S'
+      ativo char(1) default 'S'
+)
+
+create table turno (
+      id bigserial primary key,
+      nometurno varchar(30) not null,
+      ativo char(1) default 'S'
+)
+
+create table aluno (
+       matricula varchar(20) primary key,
+       nome varchar(100) not null,
+       endereco varchar(100) not null,
+       idcurso bigint references curso(id),
+       idturno bigint references turno(id),
+       ativo char(1) default 'S'
 )
 
 # Criando Model
