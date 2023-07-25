@@ -50,20 +50,17 @@ php artisan make: migration create_table_cursos --create=cursos para criar o arq
 No terminal na pasta database/migrations : php artisan migrate
 
 # Usando o sql queries do posgresql
-# Usando o sql queries do posgresql
 create table curso (
       id bigserial primary key,
       nomecurso varchar(80) not null,
       cargahoraria varchar 5),
       ativo char(1) default 'S'
 )
-
 create table turno (
       id bigserial primary key,
       nometurno varchar(30) not null,
       ativo char(1) default 'S'
 )
-
 create table aluno (
        matricula varchar(20) primary key,
        nome varchar(100) not null,
@@ -74,7 +71,20 @@ create table aluno (
 )
 
 # Criando Model
-No terminal : php artisan make:model Cursos (cria na pasta app)
+No terminal : 
+php artisan make:model Turno
+php artisan make:model Cursos
+php artisan make:model Alunos
+Cria os arquivos na pasta app
+
+# Criando Controllers
+No terminal:
+
+
+# Desenvolvimentos dos Controllers
+
+
+# Testes no Postman
 
 # Layout no Laravel
 Pasta resources/view  (no exemplo tem o arquivo welcome.blade.php) podemos trocar para index.php
@@ -85,3 +95,5 @@ Enviando arquivo para o repositório
 $ git add leia-me.txt
 $ git commit -m "Adicionando leia-me.txt"
 $ git push
+
+
