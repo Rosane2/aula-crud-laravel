@@ -3,3 +3,12 @@
 # Objetivo
 Criar um ambiente academico com cadastro de alunos, notas, etc
 
+# Modelagem de dados
+
+Tabela curso
+- id
+- nomecurso
+- cargahoraria
+- ativo
+
+
