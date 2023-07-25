@@ -1,4 +1,4 @@
-# Dados do projeto de estudo Laravel - Iniciante
+# Dados do projeto de estudo Laravel - Iniciante - passo a passo do que estudo
 
 # Objetivo
 Criar um ambiente academico com cadastro de alunos, notas, etc usando php, postgresql, laravel e o github
@@ -14,6 +14,10 @@ Criar um ambiente academico com cadastro de alunos, notas, etc usando php, postg
 - Git
 - Postman (para os testes)
 
+# Base de desenvolvimento em Laravel
+Copiei a pasta do laravel para a pasta apache2/htdocs
+Renomeei a pasta laravel para o nome aula-crud-laravel
+
 # Modelagem de dados
 Tabela : curso
 - id
@@ -21,20 +25,47 @@ Tabela : curso
 - cargahoraria
 - status
 
-
 Tabela : turno
 - id
 - nometurno
 - status
 
+Tabela : aluno
+- matricula
+- nome
+- endereco
+- idcurso
+- idturno
+- status
+
+
 # Criando o Banco de dados: acad
 Abra o pgadmin4 que já vem no pacote na pasta Bitnami > Bitnami/wappstak-7-3.10-0/postgresql/pgadmin 4/bin
-Crie o banco de dadod acad
+Primeiro crie o banco de dadod acad
+php artisan make: migration create_table_cursos --create=cursos para criar o arquivo para configurar a tabela na pasta database/migrations. 
+É necessário gerar um arquivo usando o make:migration para cada tabela a ser criada.
 
 # Criando as Tabelas
-# Usando  migration do Laravel
-
+# Usando  migration do Laravel (não consegui usar o migration dá erro)
+No terminal na pasta database/migrations : php artisan migrate
 
 # Usando o sql queries do posgresql
+create table curso (
+      id bigserial primary key,
+      nomecurso varchar(80) not null,
+      cargahoraria varchar 5),
+      status char(1) default 'S'
+)
 
+# Criando Model
+No terminal : php artisan make:model Cursos (cria na pasta app)
 
+# Layout no Laravel
+Pasta resources/view  (no exemplo tem o arquivo welcome.blade.php) podemos trocar para index.php
+O layout que está lá é o do laravel, mas podemos usar o bootstrap
+
+# Git
+Enviando arquivo para o repositório
+$ git add leia-me.txt
+$ git commit -m "Adicionando leia-me.txt"
+$ git push
