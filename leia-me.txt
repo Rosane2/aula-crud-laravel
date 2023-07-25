@@ -1,14 +1,40 @@
 # Dados do projeto de estudo Laravel - Iniciante
 
 # Objetivo
-Criar um ambiente academico com cadastro de alunos, notas, etc
+Criar um ambiente academico com cadastro de alunos, notas, etc usando php, postgresql, laravel e o github
+
+# Ferramentas
+- Aptana Studio ou outro ide
+- Bitnami 7-3.10 para windows com:
+	- apache 2.0
+	- php versão 7.3.10
+	- postgresql versão 9.5
+	- laravel versão 10.15.0
+- GitHub
+- Git
+- Postman (para os testes)
 
 # Modelagem de dados
-
-Tabela curso
+Tabela : curso
 - id
 - nomecurso
 - cargahoraria
-- ativo
+- status
+
+
+Tabela : turno
+- id
+- nometurno
+- status
+
+# Criando o Banco de dados: acad
+Abra o pgadmin4 que já vem no pacote na pasta Bitnami > Bitnami/wappstak-7-3.10-0/postgresql/pgadmin 4/bin
+Crie o banco de dadod acad
+
+# Criando as Tabelas
+# Usando  migration do Laravel
+
+
+# Usando o sql queries do posgresql
 
 
