@@ -13,31 +13,88 @@ Criar um ambiente academico com cadastro de alunos, notas, etc usando php, postg
 - GitHub
 - Git
 - Postman (para os testes)
+- Conhecimento prévio de PHP e POSTGRESQL
+
+# Links de downloads
+BITNAMI : https://bitnami.com/stack/postgresql/virtual-machine (use a versão que mais desejar)
+COMPOSER : https://getcomposer.org/download/
+POSTMAN : https://www.postman.com/downloads/
+GIT :https://git-scm.com/download/win
+GITBUB: Criar conta -> https://github.com/
 
 # Base de desenvolvimento em Laravel
 Copiei a pasta do laravel para a pasta apache2/htdocs
 Renomeei a pasta laravel para o nome aula-crud-laravel
 
-# Modelagem de dados
+# Projeto
+    Parte 1
+       Sistema acadêmico online, multiunidades, controlando alunos por unidade, curso, turno, suas notas e vida financeira.
+    Parte 2
+       Sistema de controle de acesso e log de cada operação realizada pelos usuários
+    Parte 3
+       Sistema chamado portal do aluno, para que o mesmo tenha condições de consultar notas, obter boleto bancário, dentre outros serviços a serem implementados gradativamente.
+
+# Modelagem de dados Parte 1
++ Dados pessoais e curso
+Tabela : unidades
+- id
+- razaosocial
+- nomefantasia
+- logradouro
+- numero
+- complemento
+- cnpj
+- ativo
+
+Cadastro de Cursos
 Tabela : curso
 - id
 - nomecurso
 - cargahoraria
-- status
+- ativo
 
+Cadastro de turnos
 Tabela : turno
 - id
 - nometurno
-- status
+- ativo
+
+Cadastro de anosemestre
+Tabela : anosemestre
+- anosemestre
+- datainicio
+- datatermino
+- timestamp
+- ativo
+
+tabela : status
+- id
+- descricao
+- ativo
 
 Tabela : aluno
 - matricula
 - nome
-- endereco
+- nomesocial
+- logradouro
+- numero
+- complemento
+- telefone
+- celular
+- email
+- cpf
+- identidade
+- ano/semestre que ingressou
+- data de ingresso
+- timestamp
+
+Tabela : alunostatus
+- matricula
+- semestre
 - idcurso
 - idturno
-- status
-
+- idstatus
+- timestamp
 
 # Criando o Banco de dados: acad
 Abra o pgadmin4 que já vem no pacote na pasta Bitnami > Bitnami/wappstak-7-3.10-0/postgresql/pgadmin 4/bin
@@ -46,8 +103,8 @@ php artisan make: migration create_table_cursos --create=cursos para criar o arq
 É necessário gerar um arquivo usando o make:migration para cada tabela a ser criada.
 
 # Criando as Tabelas
-# Usando  migration do Laravel (não consegui usar o migration dá erro)
-No terminal na pasta database/migrations : php artisan migrate
+# Usando  migration do Laravel (não consegui usar o migration dá erro - Class 'Facade\Ignition\IgnitionServiceProvider' not found)
+No terminal na pasta database/migrations : php artisan migrate (objetivo de não escrever códigos de banco de dados nas classes, mas vou escrever)
 
 # Usando o sql queries do posgresql
 create table curso (
@@ -56,18 +113,49 @@ create table curso (
       cargahoraria varchar 5),
       ativo char(1) default 'S'
 )
+
 create table turno (
       id bigserial primary key,
       nometurno varchar(30) not null,
       ativo char(1) default 'S'
 )
+
+create table status (
+      id bigserial primary key,
+      descricao varchar(30) not null,
+      ativo char(1) default 'S'
+)
+
+create table anosemestre (
+      anosemestre varchar(5) primary key,
+      datainicio date,
+      datatermino date,
+      datatualiza timestamp without time zone DEFAULT now()
+      ativo char(1) default 'S'
+)
+
 create table aluno (
        matricula varchar(20) primary key,
        nome varchar(100) not null,
-       endereco varchar(100) not null,
+       logradouro varchar(60) not null,
+       numero varchar(20),
+       complemento varchar(30),
+       telefone varchar(20),
+       celular varchar(20),
+       email varchar(100),
+       cpf varchar(14)
+       identidade varchar(30),
+       anosemestreingresso varchar(5) references anosemestre(anosemestre),
+       datatualiza timestamp without time zone DEFAULT now()
+)
+
+create table alunostatus (
+       matricula varchar(20) references aluno(matricula),
+       anosemestre varchar(5) references anosemestre(anosemestre),
        idcurso bigint references curso(id),
        idturno bigint references turno(id),
-       ativo char(1) default 'S'
+       idstatus bigint references status(id),
+       datatualiza timestamp without time zone DEFAULT now()
 )
 
 # Criando Model
@@ -95,5 +183,4 @@ Enviando arquivo para o repositório
 $ git add leia-me.txt
 $ git commit -m "Adicionando leia-me.txt"
 $ git push
-
 
