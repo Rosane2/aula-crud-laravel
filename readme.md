@@ -1,5 +1,10 @@
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
+<<<<<<< HEAD
+=======
+<p align="center"><h2>Estudando Laravel usando banco de dados Postgresql</h2></p>
+
+>>>>>>> 3a1f373e7f0c177f1f8c383f6f694e2236b585af
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
