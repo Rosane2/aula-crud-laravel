@@ -18,7 +18,7 @@ class TipostatusController extends Controller
 	    $pesquisa = $request->pesquisar;
 				 		 
 		if (!empty($pesquisa)) {
-			$find = DB::select('SELECT * FROM tipostatus WHERE descricao ilike ? ORDER BY ativo, descricao DESC', [$pesquisa]); 
+			$find = DB::select('SELECT * FROM tipostatus WHERE descricao ilike ? ORDER BY ativo, descricao DESC',  [$pesquisa.'%']);
             if (empty($find)) {
                 $find[0] = (object)array('descricao'=>'Nome do status nao encontrado!!!', 'ativo'=>'0');
             }

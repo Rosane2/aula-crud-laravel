@@ -13,7 +13,7 @@ class SemestreController extends Controller
 	    $pesquisa = $request->pesquisar;
 				 		 
 		if (!empty($pesquisa)) {
-			$find = DB::select('SELECT * FROM semestre WHERE anosemestre ilike ? ORDER BY ativo DESC, anosemestre', [$pesquisa]); 
+			$find = DB::select('SELECT * FROM semestre WHERE anosemestre ilike ? ORDER BY ativo DESC, anosemestre', [$pesquisa.'%']);
             if (empty($find)) {
                 $find[0] = (object)array('anosemestre'=>'Ano Semestre nao encontrado!!!', 'ativo'=>'0');
             }

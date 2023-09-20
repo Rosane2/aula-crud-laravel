@@ -20,7 +20,7 @@ class AlunoController extends Controller
 	    $pesquisa = $request->pesquisar;
 				 		 
 		if (!empty($pesquisa)) {
-			$find = DB::select('SELECT * FROM aluno INNER JOIN tipostatus ON aluno.idstatus_atual=tipostatus.id WHERE nomedoaluno ilike ? ORDER BY aluno.ativo DESC, matricula', [$pesquisa]); 
+			$find = DB::select('SELECT * FROM aluno INNER JOIN tipostatus ON aluno.idstatus_atual=tipostatus.id WHERE nomedoaluno ilike ? ORDER BY aluno.ativo DESC, matricula',  [$pesquisa.'%']); 
             if (empty($find)) {
                 $find[0] = (object)array('nomedoaluno'=>'Aluno nao encontrado!!!', 'ativo'=>'0');
             }
@@ -89,7 +89,12 @@ class AlunoController extends Controller
             $anosemestre_primeiro  = $dados['anosemestre_primeiro'];
             $anosemestre_ultimo    = $dados['anosemestre_ultimo'];
 			
-			$retorno =  DB::insert('INSERT INTO aluno (matricula, nomedoaluno, cpf, email, celular, cep, rua, numero, complemento, bairro, cidade, uf, idcurso_atual, idturno_atual, anosemestre_primeiro, anosemestre_ultimo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$matricula, $nomedoaluno, $cpf, $email, $celular, $cep, $rua, $numero, $complemento, $bairro, $cidade, $uf, $idcurso_atual, $idturno_atual, $anosemestre_primeiro, $anosemestre_ultimo]);
+
+			
+			$retorno =  DB::insert('INSERT INTO 
+										aluno (matricula, nomedoaluno, cpf, email, celular, cep, rua, numero, complemento, bairro, cidade, uf, 
+										idcurso_atual, idturno_atual, idstatus_atual, anosemestre_primeiro, anosemestre_ultimo) 
+										VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$matricula, $nomedoaluno, $cpf, $email, $celular, $cep, $rua, $numero, $complemento, $bairro, $cidade, $uf, $idcurso_atual, $idturno_atual, $idstatus_atual, $anosemestre_primeiro, $anosemestre_ultimo]);
 			
 			return redirect()->route('aluno.index');
 		}
@@ -98,22 +103,31 @@ class AlunoController extends Controller
 	}
     
 	public function atualizarAluno(Request $request, $id) {
-        		
+		dd($request);
+		
+        $findTurno = DB::select('SELECT * FROM turno WHERE ativo = :status ORDER BY descricao', ['status' => 'S']); 
+        $findCurso = DB::select('SELECT * FROM curso WHERE ativo = :status ORDER BY nomecurso', ['status' => 'S']);
+        $findSemestre = DB::select('SELECT * FROM semestre WHERE ativo = :status ORDER BY anosemestre DESC', ['status' => 'S']);
+        $findStatus = DB::select('SELECT * FROM tipostatus WHERE ativo = :status ORDER BY descricao', ['status' => 'S']); 
+
+        $findCurso2 = DB::select('SELECT cur.id, nomecurso FROM curso cur inner join aluno alu on cur.id=alu.idcurso_atual WHERE cur.ativo = :status AND alu.matricula = :id', ['status' => 'S', 'matricula' => $id]);
+		dd($findCurso2);
+		
 		if($request->method() == 'PUT') {
 			$dados = $request->all();
 					
-			$descricao    = strtoupper($dados['descricao']);
+			/*$descricao    = strtoupper($dados['descricao']);
 			
 			$retorno =  DB::update('UPDATE aluno SET descricao = ? WHERE id = ?', [$descricao, $id]);		 
 			
-            return redirect()->route('aluno.index');
+            return redirect()->route('aluno.index');*/
         }
         
 
 		$find = $this->carregar($id); 
 		$find = $find[0];
 		
-		return view('pages.aluno.atualiza', ['find' => $find]);  
+		return view('pages.aluno.atualiza', ['find' => $id, 'findCurso2' => $findCurso2, 'findCurso' => $findCurso, 'findTurno' => $findTurno, 'findSemestre' => $findSemestre, 'findStatus' => $findStatus]);
         
    } 
 

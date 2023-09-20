@@ -13,19 +13,24 @@ class CursosController extends Controller
     }
 	
 	public function index(Request $request) {
+
+		//dd($request); exit;
+	
 	    $pesquisa = $request->pesquisar;
 				 		 
 		if (!empty($pesquisa)) {
-			$findCurso = DB::select('SELECT * FROM curso WHERE nomecurso ilike ? ORDER BY ativo, nomecurso DESC', [$pesquisa]); 
-		} else {		
+			$findCurso = DB::select("SELECT * FROM curso WHERE nomecurso ILIKE :pesquisa ORDER BY ativo DESC, nomecurso", ['pesquisa' => $pesquisa.'%']); 
+            if (empty($findCurso)) {
+				$findCurso[0] = (object)array('nomecurso'=>'Nome do curso nao encontrado!!!', 'cargahoraria'=>'0', 'ativo'=>'0');
+            }
+        } else {		
 			$findCurso = DB::select('SELECT * FROM curso ORDER BY ativo DESC, nomecurso'); 
-		}
+            if (empty($findCurso)) {
+				$findCurso[0] = (object)array('nomecurso'=>'Sem dados para listar!!!', 'cargahoraria'=>'0', 'ativo'=>'0');
+            }
+        }
 		
-		if (empty($findCurso)) {
-			$findCurso[0] = (object)array('nomecurso'=>'Nome do curso nao encontrado!!!', 'cargahoraria'=>'0', 'ativo'=>'0');
-		}
-		
-		return view('pages.cursos.paginacao', ['findCurso' => $findCurso]);
+		return view('pages.cursos.paginacao', ['findCurso' => $findCurso]);		
 	}
 	
 	public function delete(Request $request) {

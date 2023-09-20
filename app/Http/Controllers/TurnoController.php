@@ -14,7 +14,7 @@ class TurnoController extends Controller
 	    $pesquisa = $request->pesquisar;
 				 		 
 		if (!empty($pesquisa)) {
-			$find = DB::select('SELECT * FROM turno WHERE descricao ilike ? ORDER BY ativo DESC, descricao', [$pesquisa]); 
+			$find = DB::select('SELECT * FROM turno WHERE descricao ilike ? ORDER BY ativo DESC, descricao', [$pesquisa.'%']);
             if (empty($find)) {
                 $find[0] = (object)array('descricao'=>'Turno nao encontrado!!!', 'ativo'=>'0');
             }
